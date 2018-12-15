@@ -7,6 +7,8 @@ import Auth from '../components/Auth/Auth';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Listings from '../components/Listings/Listings';
 import MyNavbar from '../components/MyNavbar/MyNavbar';
+import ListingForm from '../components/ListingForm/ListingForm';
+import Building from '../components/Building/Building';
 
 import './App.scss';
 import authRequests from '../helpers/data/authRequests';
@@ -49,7 +51,9 @@ render() {
     return (
         <div className="App">
           <MyNavbar isAuthed={this.state.authed} logoutClickEvent={logoutClickEvent} />
-          <Auth isAuthenticated={this.isAuthenticated}/>
+          <div className="row">
+            <Auth isAuthenticated={this.isAuthenticated}/>
+          </div>
         </div>
     );
   }
@@ -58,7 +62,13 @@ render() {
   return (
       <div className="App">
         <MyNavbar isAuthed={this.state.authed} logoutClickEvent={logoutClickEvent} />
-        <Listings />
+       <div className="row">
+       <Listings />
+       <Building />
+       </div>
+       <div>
+       <ListingForm />
+       </div>
       </div>
   );
 }
