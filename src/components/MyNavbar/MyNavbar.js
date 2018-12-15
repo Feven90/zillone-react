@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 
 class MyNavbar extends React.Component {
-  static PropTypes = {
+  static propTypes = {
     isAuthed: PropTypes.bool,
     logoutClickEvent: PropTypes.func,
   }
