@@ -16,7 +16,6 @@ import './App.scss';
 import authRequests from '../helpers/data/authRequests';
 
 class App extends Component {
-    // eslint-disable-next-line no-undef
     state = {
       authed: false,
       listings: [],
@@ -51,6 +50,17 @@ isAuthenticated = () => {
   this.setState({ authed: true });
 }
 
+deleteOne = (listingId) => {
+  listingRequests.delteListing(listingId)
+    .then(() => {
+      listingRequests.getRequest()
+        .then((listings) => {
+          this.setState({ listings });
+        });
+    })
+    .catch(err => console.error('error with delte single', err));
+}
+
 render() {
   const logoutClickEvent = () => {
     authRequests.logoutUser();
@@ -67,12 +77,14 @@ render() {
     );
   }
   // //passing reference not calling it
-  console.log(this);
   return (
       <div className="App">
         <MyNavbar isAuthed={this.state.authed} logoutClickEvent={logoutClickEvent} />
        <div className="row">
-       <Listings listings={this.state.listings}/>
+       <Listings
+          listings={this.state.listings}
+          deleteSingleListing={this.deleteOne}
+        />
        <Building />
        </div>
        <div>
