@@ -7,6 +7,8 @@ import Auth from '../components/Auth/Auth';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Listings from '../components/Listings/Listings';
 import MyNavbar from '../components/MyNavbar/MyNavbar';
+
+import listingRequests from '../helpers/data/listingRequests';
 import ListingForm from '../components/ListingForm/ListingForm';
 import Building from '../components/Building/Building';
 
@@ -17,10 +19,17 @@ class App extends Component {
     // eslint-disable-next-line no-undef
     state = {
       authed: false,
+      listings: [],
     };
 
     componentDidMount() {
       connection();
+      listingRequests.getRequest()
+        .then((listings) => {
+          this.setState({ listings });
+        })
+        .catch(err => console.error('error with listingh GET', err));
+
       this.removeListener = firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.setState({
@@ -63,7 +72,7 @@ render() {
       <div className="App">
         <MyNavbar isAuthed={this.state.authed} logoutClickEvent={logoutClickEvent} />
        <div className="row">
-       <Listings />
+       <Listings listings={this.state.listings}/>
        <Building />
        </div>
        <div>
