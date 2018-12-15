@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './MyNavbar.scss';
 import {
   Collapse,
@@ -11,6 +12,11 @@ import {
 } from 'reactstrap';
 
 class MyNavbar extends React.Component {
+  static PropTypes = {
+    isAuthed: PropTypes.bool,
+    logoutClickEvent: PropTypes.func,
+  }
+
   state = {
     isOpen: false,
   };
