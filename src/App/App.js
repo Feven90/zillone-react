@@ -82,6 +82,7 @@ render() {
         <MyNavbar isAuthed={this.state.authed} logoutClickEvent={logoutClickEvent} />
        <div className="row">
        <Listings
+       // listings is the key being passed, this is what is being passed as props
           listings={this.state.listings}
           deleteSingleListing={this.deleteOne}
         />
