@@ -61,6 +61,17 @@ deleteOne = (listingId) => {
     .catch(err => console.error('error with delte single', err));
 }
 
+formSubmitEvent = (newListing) => {
+  listingRequests.postRequest(newListing)
+    .then(() => {
+      listingRequests.getRequest()
+        .then((listings) => {
+          this.setState({ listings }); // after we submit the form lisings will be updatede
+        });
+    })
+    .catch(err => console.error('error with listing post', err));
+}
+
 render() {
   const logoutClickEvent = () => {
     authRequests.logoutUser();
@@ -89,7 +100,7 @@ render() {
        <Building />
        </div>
        <div>
-       <ListingForm />
+       <ListingForm onSubmit={this.formSubmitEvent}/>
        </div>
       </div>
   );
