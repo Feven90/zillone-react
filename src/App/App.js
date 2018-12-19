@@ -19,6 +19,8 @@ class App extends Component {
     state = {
       authed: false,
       listings: [],
+      isEditing: false,
+      editId: '-1',
     };
 
     componentDidMount() {
@@ -72,12 +74,20 @@ formSubmitEvent = (newListing) => {
     .catch(err => console.error('error with listing post', err));
 }
 
+passListingToEdit = listingId => this.setState({ isEditing: true, editId: listingId });
+
 render() {
+  const {
+    authed,
+    listings,
+    isEditing,
+    editId,
+  } = this.state;
   const logoutClickEvent = () => {
     authRequests.logoutUser();
     this.setState({ authed: false });
   };
-  if (!this.state.authed) {
+  if (!authed) {
     return (
         <div className="App">
           <MyNavbar isAuthed={this.state.authed} logoutClickEvent={logoutClickEvent} />
@@ -90,17 +100,18 @@ render() {
   // //passing reference not calling it
   return (
       <div className="App">
-        <MyNavbar isAuthed={this.state.authed} logoutClickEvent={logoutClickEvent} />
+        <MyNavbar isAuthed={authed} logoutClickEvent={logoutClickEvent} />
        <div className="row">
        <Listings
        // listings is the key being passed, this is what is being passed as props
-          listings={this.state.listings}
+          listings={listings}
           deleteSingleListing={this.deleteOne}
+          passListingToEdit={this.passListingToEdit}
         />
        <Building />
        </div>
        <div>
-       <ListingForm onSubmit={this.formSubmitEvent}/>
+       <ListingForm onSubmit={this.formSubmitEvent} isEditing={isEditing} editId={editId}/>
        </div>
       </div>
   );
