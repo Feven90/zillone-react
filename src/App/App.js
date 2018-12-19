@@ -64,14 +64,26 @@ deleteOne = (listingId) => {
 }
 
 formSubmitEvent = (newListing) => {
-  listingRequests.postRequest(newListing)
-    .then(() => {
-      listingRequests.getRequest()
-        .then((listings) => {
-          this.setState({ listings }); // after we submit the form lisings will be updatede
-        });
-    })
-    .catch(err => console.error('error with listing post', err));
+  const { isEditing, editId } = this.state;
+  if (isEditing) {
+    listingRequests.putRequest(editId, newListing)
+      .then(() => {
+        listingRequests.getRequest()
+          .then((listings) => {
+            this.setState({ listings }); // after we submit the form lisings will be updatede
+          });
+      })
+      .catch(err => console.error('error with listing post', err));
+  } else {
+    listingRequests.postRequest(newListing)
+      .then(() => {
+        listingRequests.getRequest()
+          .then((listings) => {
+            this.setState({ listings }); // after we submit the form lisings will be updatede
+          });
+      })
+      .catch(err => console.error('error with listing post', err));
+  }
 }
 
 passListingToEdit = listingId => this.setState({ isEditing: true, editId: listingId });
